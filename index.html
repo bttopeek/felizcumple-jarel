@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz Cumpleaños Jarel</title>
+  <link rel="icon" type="image/png" href="corazon.png">
+
+  <!-- Fuente romántica -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(to top, #ff9a9e, #fad0c4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: "Dancing Script", cursive;
+    }
+
+    h1 {
+      color: white;
+      font-size: 4rem;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+      text-align: center;
+      margin: 0;
+    }
+
+    p {
+      color: white;
+      font-size: 2rem;
+      margin-top: 10px;
+      text-align: center;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 70px;
+      height: 90px;
+      background: red;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: float 10s linear infinite;
+      opacity: 0.9;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.3s ease;
+    }
+
+    .balloon::after {
+      content: "";
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      width: 2px;
+      height: 25px;
+      background: #444;
+      transform: translateX(-50%);
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-120vh) rotate(360deg); }
+    }
+
+    .pop {
+      transform: scale(1.3);
+      opacity: 0;
+    }
+
+    .message {
+      position: absolute;
+      color: white;
+      font-size: 1.8rem;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+      animation: floatUp 1.5s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-80px); }
+    }
+
+    /* Botón de control de música */
+    #music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 18px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 25px;
+      background: rgba(255,255,255,0.8);
+      color: #444;
+      cursor: pointer;
+      font-family: "Dancing Script", cursive;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+      transition: 0.3s;
+    }
+
+    #music-btn:hover {
+      background: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎂 ¡Feliz Cumpleaños Yayis! 🎂</h1>
+  <p>💖 Cada día a tu lado es un regalo 💖</p>
+
+  <!-- Audio de tu cover -->
+  <audio id="bg-music" loop>
+    <source src="mi-cover.mp3" type="audio/mpeg">
+    Tu navegador no soporta el audio.
+  </audio>
+
+  <!-- Botón para controlar música -->
+  <button id="music-btn">🎵 Reproducir música</button>
+
+  <script>
+    const messages = [
+      "Te amo 💕",
+      "Eres mi todo 🌹",
+      "Mi princesa 👑",
+      "Feliz cumple 🎂",
+      "🗣️",
+      "💖",
+      "Cover? 🔥",
+      ":v"
+    ];
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function createBalloon() {
+      const balloon = document.createElement("div");
+      balloon.classList.add("balloon");
+      balloon.style.left = random(0, 100) + "vw";
+      balloon.style.background = `hsl(${random(0, 360)}, 80%, 60%)`;
+      balloon.style.animationDuration = random(8, 15) + "s";
+
+      // Evento: explotar globo con click o toque
+      balloon.addEventListener("click", (e) => {
+        balloon.classList.add("pop");
+
+        // Crear mensaje sorpresa
+        const msg = document.createElement("div");
+        msg.classList.add("message");
+        msg.innerText = messages[Math.floor(Math.random() * messages.length)];
+        msg.style.left = e.clientX + "px";
+        msg.style.top = e.clientY + "px";
+        document.body.appendChild(msg);
+
+        setTimeout(() => msg.remove(), 1500);
+        setTimeout(() => balloon.remove(), 300);
+      });
+
+      document.body.appendChild(balloon);
+
+      setTimeout(() => {
+        balloon.remove();
+      }, 15000);
+    }
+
+    setInterval(createBalloon, 800);
+
+    // 🎵 Control de música
+    const music = document.getElementById("bg-music");
+    const btn = document.getElementById("music-btn");
+
+    btn.addEventListener("click", () => {
+      if (music.paused) {
+        music.play();
+        btn.innerText = "⏸️ Pausar música";
+      } else {
+        music.pause();
+        btn.innerText = "🎵 Reproducir música";
+      }
+    });
+  </script>
+</body>
+</html>
